@@ -4,3 +4,5 @@ This folder contains some vulnerability reports I have disclosed over time.
 - Network Solution WebMail - Multiple vulnerabilities (Responsible Disclosure)
 - Tuleap - SQL injection (CVE-2018-7538)
 - Telecom Italia Ngeener Web (to be discloded)
+- Juniper Network (to be disclosed)
+- OpenText Carbonite Server Backup (to be disclosed)
