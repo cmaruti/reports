@@ -6,3 +6,4 @@ This folder contains some vulnerability reports I have disclosed over time.
 - Telecom Italia Ngeener Web (to be discloded)
 - Juniper Network (to be disclosed)
 - OpenText Carbonite Server Backup (CVE-2020-13116)
+- Nokia BTS Authentication Bypass (to be disclosed)
