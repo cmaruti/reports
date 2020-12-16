@@ -3,7 +3,7 @@ This folder contains some vulnerability reports I have disclosed over time.
 - Aruba ClearPass Policy Manager - Stored XSS (CVE-2015-1389)
 - Network Solution WebMail - Multiple vulnerabilities (Responsible Disclosure)
 - Tuleap - SQL injection (CVE-2018-7538)
-- Telecom Italia Ngeener Web (to be disclosed)
+- Telecom Italia Bug Bounty Program - Ngeener Web - Multiple Vulnerabilities including SQLi and Auth Bypass - (acknowledged - to be disclosed)
 - OpenText Carbonite Server Backup (CVE-2020-13116)
 - Nokia BTS Authentication Bypass (acknowledged - to be disclosed)
 - Huawei BSC6900 GSM and BSC6900 UMTS WebLMS Multiple Vulnerabilities (acknowledged - to be disclosed)
