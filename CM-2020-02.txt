@@ -1,4 +1,4 @@
-				  title: Nokia Transport Module Authentication Bypass
+		  title: Nokia Transport Module Authentication Bypass
                 case id: CM-2020-02
                 product: BTS TRS web console (FTM_W20_FP2_2019.08.16_0010)
      vulnerability type: Authentication Bypass
