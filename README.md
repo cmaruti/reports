@@ -6,5 +6,5 @@ This folder contains some vulnerability reports I have disclosed over time.
 - Telecom Italia Bug Bounty Program - Ngeener Web - Multiple Vulnerabilities including SQLi and Auth Bypass - (acknowledged - to be disclosed)
 - OpenText Carbonite Server Backup (CVE-2020-13116)
 - Nokia BTS Authentication Bypass (CVE-2021-31932)
-- Huawei BSC6900 GSM and BSC6900 UMTS WebLMS Multiple Vulnerabilities (acknowledged - to be disclosed)
-- Huawei U2020 (Taishan) Dom-based XSS and Application-level DoS (acknowledged - to be disclosed)
+- Huawei BSC6900 GSM and BSC6900 UMTS WebLMS Multiple Vulnerabilities (CM-2020-03.txt)
+- Huawei U2020 (Taishan) Dom-based XSS and Application-level DoS (CM-2020-04.txt)
