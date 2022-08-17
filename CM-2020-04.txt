@@ -1,0 +1,43 @@
+		  title: Application-level DoS
+                case id: CM-2020-04
+                product: U2020 Taishan fullstack
+     vulnerability type: Denial-of-Service
+               severity: Medium
+                  found: 2020-07-15
+                     by: Cristiano Maruti (@cmaruti)
+			 Bruno Colella Garofalo (https://www.linkedin.com/in
+						 /bruno-colella-garofalo/)
+
+[EXECUTIVE SUMMARY]
+
+ U2020 OSS system manages and provides basic functions, such as configuration
+ management, performance management, fault management, security management, 
+ log management, topology management, software management, and system 
+ management for various Huawei mobile network elements (NEs). It also provides 
+ a variety of optional functions. During an engagement we found an application
+ -level denial of service on a network daemon used by the system. An attacker 
+ can cause the crash of the target network service effectively denying access 
+ to legitimate users.
+ 
+[VULNERABLE VERSIONS]
+
+ The following version of the products were affected by the
+ vulnerabilities; previous versions may be vulnerable as well:
+  - U2020 Taishan fullstack (OSS Rel SW MAEV100R020C10SPC230)
+ 
+[TECHNICAL DETAILS]
+
+ The network daemon listening on port TCP/8007 is vulnerable to an application
+ Denial-of-Service due to a huge memory allocation while being fuzzed (dumb 
+ fuzz). During a fuzzing session it was discovered that the aforementioned 
+ deamon allocates a huge number of resources and it's killed by the system 
+ scheduler (it was observed that after 1 to 2 minutes of fuzzing the deamon 
+ starts using all the CPUs at 100%).A n attacker with network visibility of the
+ affected U2020 service can cause the crash of the target network service 
+ effectively denying access to legitimate users (application-level DoS).
+
+ It is possible to reproduce the vulnerability following these steps:
+  1. Install radamsa and nmap (required for the ncat dependency)
+  2. Run the following command on a Linux box: while true; do echo 'LST
+     FMARSTDIR:FUNCTYPE=FaultDiagnosis;' | radamsa | ncat <ip> --ssl; done
+  3. Notice that the deamon crashes after 1 to 2 minutes

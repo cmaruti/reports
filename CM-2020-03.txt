@@ -1,0 +1,121 @@
+		  title: DOM XSS (Internet Explorer and Safari only) and
+			 Frame src injection leading to XSS
+                case id: CM-2020-03
+                product: BSC6900 GSM and BSC6900 UMTS WebLMS
+     vulnerability type: Input validation
+               severity: Medium
+                  found: 2020-07-15
+                     by: Cristiano Maruti (@cmaruti)
+			 Bruno Colella Garofalo (https://www.linkedin.com/in
+						 /bruno-colella-garofalo/)
+
+[EXECUTIVE SUMMARY]
+
+ The GMS and UMTS web console (WebLMS) allows an authenticated user to 
+ remotely manage the BTS and its configuration. The analysis discovered an 
+ unauthenticated DOM-based XSS vulnerability (WSTG-CLNT-01) and a frame src 
+ injection leading to XSS in the WebLMS. In both case the web application 
+ fails to sanitize user-supplied input while generating HTML pages under the
+ help section. In the first case, an attacker can forge a malicious WebLMS 
+ URL containing client-side code (HTML, JavaScript, CSS) which is executed 
+ in the browser of the victim once she visits it. In the latter an attacker 
+ can forge a malicious WebLMS URL which forces the loading of a javascript: 
+ or data: or http: or https: URI which is loaded in the browser of the victim
+ once she visits the attacker's URL.
+  
+[VULNERABLE VERSIONS]
+
+ The following version of the products were affected by the
+ vulnerabilities; previous versions may be vulnerable as well:
+  - BSC6900 GSM WebLMS (V900R022ENGC10SPC510)
+  - BSC6900 UMTS WebLMS (V900R022ENGC10SPC510)
+
+
+ As we already shared the details of those vulnerabilities with our customer we
+ also reports you internal ticket # for your further reference:  
+ - HU_RAN_Defect_969:EWL SRAN16.1 BSC-RNC: Frame source injection leading to XSS
+ - HU_RAN_Defect_968:EWL SRAN16.1 BSC-RNC: Reflected XSS (Internet Explorer and Safari only)
+
+[DOM XSS - TECHNICAL DETAILS]
+ 
+ When WebLMS open a specific help page an URL like the following one is used:
+ http://<ip>/interface202068121222/GO/en/help/lmt-help.htm#path/to/specific/
+ help/page.html.The content of the location.hash is then used via the 
+ document.write() JavaScript function along with a static string containing a 
+ frame tag template as its src value. Some browsers (i.e. Internet Explorer 
+ and Safari) do not urlencode the content of the location.hash which results in
+ the ability to inject arbitrary HTML code.
+
+ It is possible to reproduce the vulnerability copy and paste the following URLs
+ in a browser (IE and Safari onlny):
+ http://<ip>/interface202068121222/GO/en/help/lmt-help.htm#mbsc/m-bsc-lmt-
+ user-guide/mbsc-10-734.html"onload="alert(1)
+
+[Frame src injection leading to XSS - TECHNICAL DETAILS]
+ 
+ The WebLMS application fails to validate user-supplied input while generating
+ HTML pages. Specifically, to open a specific help page an URL like the 
+ following one is used: http://<ip>/interface202068121222/GO/en/help/lmt-help.
+ htm#path/to/specific/help/page.html. The content of the location.hash is 
+ parsed by the IsInternal function and if the return value is true it is used 
+ as src value of a frame element. The IsInternal (shown below) fails to 
+ validate the user-supplied input, allowing external URLs to be considered as 
+ internals.
+
+ -----------SNIP--------------
+ function IsInternal(urlName)
+ {
+   if(urlName.indexOf(":") == -1 && urlName.indexOf("&#58;")== -1 && 
+   urlName.indexOf("//")  != 0 && 
+       urlName.indexOf("/&#47;") != 0 && urlName.indexOf("&#47;/") != 0 && 
+	   urlName.indexOf("&#47;&#47;") != 0)
+     return true;
+   else
+     return false;
+ }
+ -----------SNIP--------------
+===============================================================================
+===============================================================================
+		  title: Application-level DoS
+                case id: CM-2020-04
+                product: U2020 Taishan fullstack
+     vulnerability type: Denial-of-Service
+               severity: Medium
+                  found: 2020-07-15
+                     by: Cristiano Maruti (@cmaruti)
+			Bruno Colella Garofalo (https://www.linkedin.com/in
+						 /bruno-colella-garofalo/)
+
+[EXECUTIVE SUMMARY]
+
+ U2020 OSS system manages and provides basic functions, such as configuration
+ management, performance management, fault management, security management, 
+ log management, topology management, software management, and system 
+ management for various Huawei mobile network elements (NEs). It also provides 
+ a variety of optional functions. During an engagement we found an application
+ -level denial of service on a network daemon used by the system. An attacker 
+ can cause the crash of the target network service effectively denying access 
+ to legitimate users.
+ 
+[VULNERABLE VERSIONS]
+
+ The following version of the products were affected by the
+ vulnerabilities; previous versions may be vulnerable as well:
+  - U2020 Taishan fullstack (OSS Rel SW MAEV100R020C10SPC230)
+ 
+[TECHNICAL DETAILS]
+
+ The network daemon listening on port TCP/8007 is vulnerable to an application
+ Denial-of-Service due to a huge memory allocation while being fuzzed (dumb 
+ fuzz). During a fuzzing session it was discovered that the aforementioned 
+ deamon allocates a huge number of resources and it's killed by the system 
+ scheduler (it was observed that after 1 to 2 minutes of fuzzing the deamon 
+ starts using all the CPUs at 100%).A n attacker with network visibility of the
+ affected U2020 service can cause the crash of the target network service 
+ effectively denying access to legitimate users (application-level DoS).
+
+ It is possible to reproduce the vulnerability following these steps:
+  1. Install radamsa and nmap (required for the ncat dependency)
+  2. Run the following command on a Linux box: while true; do echo 'LST
+     FMARSTDIR:FUNCTYPE=FaultDiagnosis;' | radamsa | ncat <ip> --ssl; done
+  3. Notice that the deamon crashes after 1 to 2 minutes
